@@ -7,7 +7,7 @@ on:
   push:
     branches:
       - master
-      - feature/github-actions
+      - feature/*
 
 jobs:
   build-and-deploy:
