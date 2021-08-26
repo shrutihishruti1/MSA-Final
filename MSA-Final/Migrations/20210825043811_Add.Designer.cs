@@ -4,14 +4,16 @@ using MSA_Final.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MSA_Final.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210825043811_Add")]
+    partial class Add
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,14 +41,14 @@ namespace MSA_Final.Migrations
                     b.Property<DateTime>("Modified")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ViewerId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ContentId");
 
-                    b.HasIndex("ViewerId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Comments");
                 });
@@ -76,7 +78,7 @@ namespace MSA_Final.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ViewerId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.Property<int>("Year")
@@ -84,12 +86,12 @@ namespace MSA_Final.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ViewerId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Contents");
                 });
 
-            modelBuilder.Entity("MSA_Final.Models.Viewer", b =>
+            modelBuilder.Entity("MSA_Final.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -101,7 +103,6 @@ namespace MSA_Final.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageURI")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -110,7 +111,7 @@ namespace MSA_Final.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Viewers");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("MSA_Final.Models.Comment", b =>
@@ -121,26 +122,26 @@ namespace MSA_Final.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MSA_Final.Models.Viewer", "Viewer")
+                    b.HasOne("MSA_Final.Models.User", "User")
                         .WithMany("Comments")
-                        .HasForeignKey("ViewerId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Content");
 
-                    b.Navigation("Viewer");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MSA_Final.Models.Content", b =>
                 {
-                    b.HasOne("MSA_Final.Models.Viewer", "Viewer")
+                    b.HasOne("MSA_Final.Models.User", "User")
                         .WithMany("Contents")
-                        .HasForeignKey("ViewerId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Viewer");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MSA_Final.Models.Content", b =>
@@ -148,7 +149,7 @@ namespace MSA_Final.Migrations
                     b.Navigation("Comments");
                 });
 
-            modelBuilder.Entity("MSA_Final.Models.Viewer", b =>
+            modelBuilder.Entity("MSA_Final.Models.User", b =>
                 {
                     b.Navigation("Comments");
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MSA_Final.Models
 {
-    public class User
+    public class Viewer
     {
         [Key]
         public int Id { get; set; }
@@ -18,5 +18,9 @@ namespace MSA_Final.Models
         public string GitHub { get; set; }
 
         public string ImageURI { get; set; }
+
+        public ICollection<Content> Contents { get; set; } = new List<Content>();
+
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
     }
 }
