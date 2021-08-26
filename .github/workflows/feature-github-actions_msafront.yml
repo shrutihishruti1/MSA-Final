@@ -6,11 +6,15 @@ name: Azure App Service - msafront(Production), Build and deploy NodeJS app
 on:
   push:
     branches:
+      - master
       - feature/github-actions
 
 jobs:
   build-and-deploy:
     runs-on: windows-latest
+    default:
+     run:
+      working-directory: "./msafront"
 
     steps:
     # checkout the repo
@@ -35,5 +39,5 @@ jobs:
         app-name: msafront
         slot-name: Production
         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5E84BAB5ECD54B369604B10FC20ED719 }}
-        package: .
+        package: "./msafront/build"
 
